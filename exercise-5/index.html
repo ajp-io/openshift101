@@ -120,7 +120,20 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.2" data-path="../exercise-1/">
+        <li class="chapter " data-level="1.1.2" data-path="../exercise-0/">
+            
+                <a href="../exercise-0/">
+            
+                    
+                    Setup CLI Access for the cluster
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.1.3" data-path="../exercise-1/">
             
                 <a href="../exercise-1/">
             
@@ -133,7 +146,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.3" data-path="../exercise-2/">
+        <li class="chapter " data-level="1.1.4" data-path="../exercise-2/">
             
                 <a href="../exercise-2/">
             
@@ -146,7 +159,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.4" data-path="../exercise-3/">
+        <li class="chapter " data-level="1.1.5" data-path="../exercise-3/">
             
                 <a href="../exercise-3/">
             
@@ -159,7 +172,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.5" data-path="../exercise-4/">
+        <li class="chapter " data-level="1.1.6" data-path="../exercise-4/">
             
                 <a href="../exercise-4/">
             
@@ -172,7 +185,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.6" data-path="../exercise-4b/README.md">
+        <li class="chapter " data-level="1.1.7" data-path="../exercise-4b/README.md">
             
                 <span>
             
@@ -185,7 +198,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.1.7" data-path="./">
+        <li class="chapter active" data-level="1.1.8" data-path="./">
             
                 <a href="./">
             
@@ -198,7 +211,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.8" data-path="../exercise-6/">
+        <li class="chapter " data-level="1.1.9" data-path="../exercise-6/">
             
                 <a href="../exercise-6/">
             
@@ -211,7 +224,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.9" data-path="../exercise-7/README.md">
+        <li class="chapter " data-level="1.1.10" data-path="../exercise-7/README.md">
             
                 <span>
             
@@ -300,18 +313,18 @@ would deregister that service.</p>
 whether the application is running and responding to API calls -- it responds
 with a simple JSON payload.</p>
 <p>Navigate to your deployment and choose <code>Actions &gt; Edit Health Checks</code>.</p>
-<p><img src="../.gitbook/assets/screen-shot-2019-08-13-at-11.05.38-pm.png" alt="Health Checks"></p>
+<p><img src="../.gitbook/assets/edit-health-checks.png" alt="Health Checks"></p>
 <p>Add a readiness probe:</p>
-<p><img src="../.gitbook/assets/screen-shot-2019-08-13-at-11.06.13-pm.png" alt="Readiness"></p>
+<p><img src="../.gitbook/assets/health-checks-ui.png" alt="Readiness"></p>
 <p>Add a liveness probe:</p>
-<p><img src="../.gitbook/assets/screen-shot-2019-08-13-at-11.16.22-pm.png" alt="Liveness"></p>
+<p><img src="../.gitbook/assets/liveness-probe.png" alt="Liveness"></p>
 <p>Click Save.</p>
 <p>If all works, everything should be the same. Let&apos;s check that the probes are really working though.</p>
 <h2 id="inject-failure">Inject Failure</h2>
 <p>Let&apos;s edit the probe with a typo to see what happens when it fails. Edit the health check and change the path for the readiness probe to <code>/badpath</code>. Wait a few minutes and check your deployment - you&apos;ll notice that <code>0/1</code> containers are ready:</p>
-<p><img src="../.gitbook/assets/screen-shot-2019-08-13-at-11.12.52-pm.png" alt="Badpath"></p>
+<p><img src="../.gitbook/assets/badpath.png" alt="Badpath"></p>
 <p>Dive into your events and you&apos;ll see that the probe is failing, causing the platform to try and repeatedly restart your pod.</p>
-<p><img src="../.gitbook/assets/screen-shot-2019-08-13-at-11.13.02-pm.png" alt="Deeper Dive"></p>
+<p><img src="../.gitbook/assets/events.png" alt="Deeper Dive"></p>
 <p>Using health checks gives your OpenShift service layer better reliability and helps you start with a strong foundation.</p>
 <h2 id="youre-done">You&apos;re done</h2>
 <p>Congratulations on completing the lab!</p>
@@ -358,7 +371,7 @@ with a simple JSON payload.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Storage and Networking","level":"1.1.7","depth":2,"next":{"title":"Advanced Features","level":"1.1.8","depth":2,"path":"exercise-6/README.md","ref":"exercise-6/README.md","articles":[]},"previous":{"title":"Monitoring (Optional)","level":"1.1.6","depth":2,"path":"exercise-4b/README.md","ref":"exercise-4b/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["hints"],"root":"./workshop","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hints":{"info":"fa fa-info-circle","tip":"fa fa-mortar-board","danger":"fa fa-exclamation-circle","working":"fa fa-wrench"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"*"},"file":{"path":"exercise-5/README.md","mtime":"2019-08-23T14:23:44.132Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-08-23T14:24:33.966Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Storage and Networking","level":"1.1.8","depth":2,"next":{"title":"Advanced Features","level":"1.1.9","depth":2,"path":"exercise-6/README.md","ref":"exercise-6/README.md","articles":[]},"previous":{"title":"Monitoring (Optional)","level":"1.1.7","depth":2,"path":"exercise-4b/README.md","ref":"exercise-4b/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["hints"],"root":"./workshop","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hints":{"info":"fa fa-info-circle","tip":"fa fa-mortar-board","danger":"fa fa-exclamation-circle","working":"fa fa-wrench"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"*"},"file":{"path":"exercise-5/README.md","mtime":"2019-09-06T16:54:43.798Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-06T16:55:36.892Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

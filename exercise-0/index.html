@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Metrics and tracing · GitBook</title>
+        <title>Setup CLI Access for the cluster · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -61,10 +61,10 @@
     <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../exercise-4b/README.md" />
+    <link rel="next" href="../exercise-1/" />
     
     
-    <link rel="prev" href="../exercise-3/" />
+    <link rel="prev" href="../GETSTARTED.html" />
     
 
     </head>
@@ -120,9 +120,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.2" data-path="../exercise-0/">
+        <li class="chapter active" data-level="1.1.2" data-path="./">
             
-                <a href="../exercise-0/">
+                <a href="./">
             
                     
                     Setup CLI Access for the cluster
@@ -172,9 +172,9 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.1.6" data-path="./">
+        <li class="chapter " data-level="1.1.6" data-path="../exercise-4/">
             
-                <a href="./">
+                <a href="../exercise-4/">
             
                     
                     Metrics and tracing
@@ -285,7 +285,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Metrics and tracing</a>
+        <a href=".." >Setup CLI Access for the cluster</a>
     </h1>
 </div>
 
@@ -300,44 +300,60 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="exercise-4-autoscale-pods">Exercise 4: Autoscale Pods</h1>
-<p>In this exercise, we&apos;ll leverage the metrics we&apos;ve observed in the previous step to automatically scale our UI application in response to load.</p>
-<h2 id="enable-resource-limits">Enable Resource Limits</h2>
-<p>Before we can setup autoscaling for our pods, we first need to set resource limits on the pods running in our cluster. Limits allows you to choose the minimum and maximum CPU and memory usage for a pod.</p>
-<p>Navigate to <code>Applications &gt; Deployments</code>, then choose your deployment. Then, choose <code>Actions &gt; Edit Resource Limits</code>.</p>
-<p><img src="../.gitbook/assets/edit-resource-limit-step.png" alt="Add Resource Limits"></p>
-<p>Hopefully you have your running script simulating load (if not go <a href="../exercise-2/#simulate-load-on-the-application">here</a>),
-Grafana showed you that your application was consuming anywhere between &quot;.002&quot; to
-&quot;.02&quot; cores. This translates to 2-20 &quot;millicores&quot;. That seems like a good range for
-our CPU request, but to be safe, let&apos;s bump the higher-end up to 30 millicores. In
-addition, Grafana showed that the app consumes about <code>25</code>-<code>35</code> MB of RAM. Set the
-following resource limits for your deployment now.</p>
-<p><img src="../.gitbook/assets/resource-limit-ui.png" alt="Recommended Resource Limits"></p>
-<p><div class="alert alert-info hints-alert"><div class="hints-icon"><i class="fa fa-info-circle"></i></div><div class="hints-container"><p>Remember to set the correct unit -- millicores and MB (not MiB)</p>
-</div></div></p>
-<p>Hit save. If there&apos;s an error saying that the deployment has changed, you may need to go back to your deployment, refersh the page, and try again.</p>
-<h2 id="enable-autoscaler">Enable Autoscaler</h2>
-<p>Now that we have resource limits, let&apos;s enable autoscaler. Go back to the deployment, but this time choose <code>Actions &gt; Edit Autoscaler</code>.</p>
-<p><img src="../.gitbook/assets/edit-auto-scaler%20%281%29.png" alt="Edit Autoscaler"></p>
-<p>By default, the autoscaler allows you to scale based on CPU or Memory. The UI allows
-you to do CPU only (for now). Pods are balanced between the minimum and maximum
-number of pods that you specify. With the autoscaler, pods are automatically created
-or deleted to ensure that the average CPU usage of the pods is below the CPU request
-target as defined. In general, you probably want to start scaling up when you get near
-<code>50</code>-<code>90</code>% of the CPU usage of a pod. In our case, let&apos;s make it <code>1</code>% to test the autoscaler
-since we are generating minimal load.</p>
-<p><img src="../.gitbook/assets/autoscale-deployment-config-ui.png" alt="Autoscaler Recommended Values"></p>
-<p>Click <code>Save</code>.</p>
-<h2 id="test-autoscaler">Test Autoscaler</h2>
-<p>If you&apos;re not running the script from the <a href="exercise-2.md#simulate-load-on-the-application">previous exercise</a>, the pods should stay at 1. Check by going to the overview page.</p>
-<p><img src="../.gitbook/assets/before-scale.png" alt="Scaled to 1 pod"></p>
-<p>Start simulating load by hitting the page several times, or running the script. You&apos;ll see that it starts to scale up:</p>
-<p><img src="../.gitbook/assets/scaling.png" alt="Scaled to 4/10 pods"></p>
-<p>That&apos;s it! You now have a highly available and automatically scaled front-end Node.js application. OpenShift is automatically scaling your application pods since the CPU usage of the pods greatly exceeded <code>1</code>% of the resource limit, <code>30</code> millicores.</p>
-<h3 id="optional">Optional</h3>
-<p>Find the Autoscaler information in the Deployment.</p>
-<p><img src="../.gitbook/assets/autoscaling.png" alt="Autoscaler Deployment"></p>
-<p>If you&apos;re interested in setting up the CLI, <a href="exercise-1.md">follow the steps here</a>. Then, run the following command in your CLI <code>oc get hpa</code> to get information about your horizontal pod autoscaler. Remember to switch to your project first with <code>oc project &lt;project-name&gt;</code>.</p>
+                                <h1 id="setup-cli-access-for-the-cluster">Setup CLI Access for the cluster</h1>
+<p>You must already have an IBM account, with a cluster created or assigned to you as documented in <a href="../../GETSTARTED.md">Get Started</a>.</p>
+<h2 id="install-openshift-cli-tools">Install OpenShift CLI tools</h2>
+<ol>
+<li><p>Download and unpack OpenShift cli tools. The <code>oc</code> utility is your main gateway into OpenShift. We&apos;ll add them to your path in a convenient location. Please double check the latest release here: <a href="https://github.com/openshift/origin/releases/" target="_blank">OpenShift Origin Releases</a></p>
+<p>a. Download tarball of the tools</p>
+<pre><code class="lang-bash"> wget https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+</code></pre>
+<p>b. Unpack</p>
+<pre><code class="lang-bash"> tar -xvzf openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
+</code></pre>
+<p>c. Rename for ease of use</p>
+<pre><code class="lang-bash"> mv openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit <span class="hljs-variable">${HOME}</span>/oc-cli
+</code></pre>
+<p>d. Set Path. Note that if you restart your cloud shell, you may need to re-run this command.</p>
+<pre><code class="lang-bash"> <span class="hljs-built_in">export</span> PATH=<span class="hljs-variable">${PATH}</span>:<span class="hljs-variable">${HOME}</span>/oc-cli
+</code></pre>
+<p>e. Verify the utility is available by using <code>which</code> and the help</p>
+</li>
+</ol>
+<pre><code class="lang-bash">    <span class="hljs-built_in">which</span> oc
+</code></pre>
+<pre><code class="lang-bash">    oc <span class="hljs-built_in">help</span>
+</code></pre>
+<h2 id="access-the-openshift-web-ui">Access the OpenShift Web UI</h2>
+<ol>
+<li>Launch the OpenShift web console.<ol>
+<li>Navigate to the <a href="https://cloud.ibm.com/kubernetes/clusters" target="_blank">IBM Cloud Clusters Dashboard</a></li>
+<li>Find your cluster and click it</li>
+<li>Click <code>OpenShift Web Console</code> on the top right</li>
+</ol>
+</li>
+<li>Once in the console, select your name/id in the upper right, click. Scroll down to &apos;Copy Login Command&apos; and click it.</li>
+</ol>
+<h2 id="access-your-cluster-using-openshift-client-utils">Access your cluster using OpenShift client utils</h2>
+<ol>
+<li>Paste the login command you copied from the Web UI.</li>
+</ol>
+<pre><code class="lang-bash">oc login https://c100-e.us-east.containers.cloud.ibm.com:39813 --token=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+</code></pre>
+<p>You should see a success message.</p>
+<ol>
+<li><p>Validate access to your cluster.</p>
+<p>a. View nodes in the cluster.</p>
+<pre><code class="lang-bash">oc get node
+</code></pre>
+<p>b. View services, deployments, and pods.</p>
+<pre><code class="lang-bash">oc get svc,deploy,po --all-namespaces
+</code></pre>
+<p>c. View all OpenShift projects</p>
+<pre><code class="lang-bash">oc get projects
+</code></pre>
+</li>
+</ol>
 
                                 
                                 </section>
@@ -365,12 +381,12 @@ since we are generating minimal load.</p>
 
             
                 
-                <a href="../exercise-3/" class="navigation navigation-prev " aria-label="Previous page: Deploy Example Application">
+                <a href="../GETSTARTED.html" class="navigation navigation-prev " aria-label="Previous page: Create account and get cluster">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../exercise-4b/README.md" class="navigation navigation-next " aria-label="Next page: Monitoring (Optional)">
+                <a href="../exercise-1/" class="navigation navigation-next " aria-label="Next page: Accessing the cluster">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -381,7 +397,7 @@ since we are generating minimal load.</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Metrics and tracing","level":"1.1.6","depth":2,"next":{"title":"Monitoring (Optional)","level":"1.1.7","depth":2,"path":"exercise-4b/README.md","ref":"exercise-4b/README.md","articles":[]},"previous":{"title":"Deploy Example Application","level":"1.1.5","depth":2,"path":"exercise-3/README.md","ref":"exercise-3/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["hints"],"root":"./workshop","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hints":{"info":"fa fa-info-circle","tip":"fa fa-mortar-board","danger":"fa fa-exclamation-circle","working":"fa fa-wrench"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"*"},"file":{"path":"exercise-4/README.md","mtime":"2019-09-06T16:54:43.798Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-06T16:55:36.892Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Setup CLI Access for the cluster","level":"1.1.2","depth":2,"next":{"title":"Accessing the cluster","level":"1.1.3","depth":2,"path":"exercise-1/README.md","ref":"exercise-1/README.md","articles":[]},"previous":{"title":"Create account and get cluster","level":"1.1.1","depth":2,"path":"GETSTARTED.md","ref":"GETSTARTED.md","articles":[]},"dir":"ltr"},"config":{"plugins":["hints"],"root":"./workshop","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hints":{"info":"fa fa-info-circle","tip":"fa fa-mortar-board","danger":"fa fa-exclamation-circle","working":"fa fa-wrench"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"*"},"file":{"path":"exercise-0/README.md","mtime":"2019-09-06T16:54:43.794Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-06T16:55:36.892Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

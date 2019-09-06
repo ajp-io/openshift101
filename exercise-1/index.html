@@ -64,7 +64,7 @@
     <link rel="next" href="../exercise-2/" />
     
     
-    <link rel="prev" href="../GETSTARTED.html" />
+    <link rel="prev" href="../exercise-0/" />
     
 
     </head>
@@ -120,7 +120,20 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.1.2" data-path="./">
+        <li class="chapter " data-level="1.1.2" data-path="../exercise-0/">
+            
+                <a href="../exercise-0/">
+            
+                    
+                    Setup CLI Access for the cluster
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.1.3" data-path="./">
             
                 <a href="./">
             
@@ -133,7 +146,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.3" data-path="../exercise-2/">
+        <li class="chapter " data-level="1.1.4" data-path="../exercise-2/">
             
                 <a href="../exercise-2/">
             
@@ -146,7 +159,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.4" data-path="../exercise-3/">
+        <li class="chapter " data-level="1.1.5" data-path="../exercise-3/">
             
                 <a href="../exercise-3/">
             
@@ -159,7 +172,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.5" data-path="../exercise-4/">
+        <li class="chapter " data-level="1.1.6" data-path="../exercise-4/">
             
                 <a href="../exercise-4/">
             
@@ -172,7 +185,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.6" data-path="../exercise-4b/README.md">
+        <li class="chapter " data-level="1.1.7" data-path="../exercise-4b/README.md">
             
                 <span>
             
@@ -185,7 +198,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.7" data-path="../exercise-5/">
+        <li class="chapter " data-level="1.1.8" data-path="../exercise-5/">
             
                 <a href="../exercise-5/">
             
@@ -198,7 +211,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.8" data-path="../exercise-6/">
+        <li class="chapter " data-level="1.1.9" data-path="../exercise-6/">
             
                 <a href="../exercise-6/">
             
@@ -211,7 +224,7 @@
             
         </li>
     
-        <li class="chapter " data-level="1.1.9" data-path="../exercise-7/README.md">
+        <li class="chapter " data-level="1.1.10" data-path="../exercise-7/README.md">
             
                 <span>
             
@@ -290,7 +303,6 @@
                                 <h1 id="exercise-1-using-openshift">Exercise 1: Using OpenShift</h1>
 <p>In this exercise, you&apos;ll deploy a simple Node.js Express application - &quot;Example Health&quot;. Example Health is a simple UI for a patient health records system. We&apos;ll use this example to demonstrate key OpenShift features throughout this workshop. You can find the sample application GitHub repository here: <a href="https://github.com/IBM/node-s2i-openshift" target="_blank">https://github.com/IBM/node-s2i-openshift</a></p>
 <h2 id="deploy-example-health">Deploy Example Health</h2>
-<!-- Mofi: Put a screen shot here showing off the Dashboard per the cluster -->
 <p>Access your cluster on the <a href="https://cloud.ibm.com/kubernetes/clusters" target="_blank">IBM Cloud clusters dashboard</a>. Click the <code>OpenShift web console</code> button on the top-right. (This is a pop-up so you&apos;ll need to white list this site.)</p>
 <p>Create a project, you can title it whatever you like, we suggest &quot;example-health.&quot;</p>
 <p><img src="../.gitbook/assets/createproject.png" alt="Create Project"></p>
@@ -299,7 +311,6 @@
 <p>Click on the browse catalog button and scroll down to the <code>Node.js</code> image. Click on that catalog button.</p>
 <p><img src="../.gitbook/assets/node.png" alt="Node"></p>
 <p>Click through to the second step for configuration, and choose <code>advanced options</code>. ( a blue hyperlink on the bottom line )</p>
-<!-- Mofi: to add a box around the image -->
 <p><img src="../.gitbook/assets/advanced.png" alt="Advanced"></p>
 <p>You&apos;ll see an advanced form like this:</p>
 <p><img src="../.gitbook/assets/node-advanced-form.png" alt="Node Advanced Form"></p>
@@ -312,7 +323,56 @@
 <p>Congrats! You&apos;ve deployed a <code>Node.js</code> app to Kubernetes using OpenShift Source-to-Image (S2I).</p>
 <h2 id="understanding-what-happened">Understanding What Happened</h2>
 <p><a href="https://docs.openshift.com/container-platform/3.6/architecture/core_concepts/builds_and_image_streams.html#source-build" target="_blank">S2I</a> is a framework that creates container images from source code, then runs the assembled images as a containers. It allows developers to build reproducible images easily, letting them spend time on what matters most, developing their code!</p>
-<h2 id="continue-to-exercise-2"><a href="exercise-2/README.md">Continue to Exercise 2</a></h2>
+<h2 id="git-webhooks">Git Webhooks</h2>
+<p>So far we have been doing alot of manual deployment. In cloud-native world we want to move away from manual work and move toward automation. Wouldn&apos;t it be nice if our application rebuilt on git push events? Git webhooks are the way its done and openshift comes bundled in with git webhooks. Let&apos;s set it up for our project.</p>
+<p>To be able to setup git webhook we need to have elevated permission to the project. The repo we have been using so far we don&apos;t own it. But since its opensource we can easily fork it and make it our own.</p>
+<p>Fork the repo at <a href="https://github.com/IBM/node-s2i-openshift" target="_blank">https://github.com/IBM/node-s2i-openshift</a></p>
+<p><img src="../.gitbook/assets/fork.png" alt="Fork"></p>
+<p>Now that I have forked the repo under my repo I have full admin priviledges. As you can see I now have a settings button that I can change the repo settings with.</p>
+<p><img src="../.gitbook/assets/forked-repo.png" alt="Forked Repo"></p>
+<p>We will come back to this page in a moment. Lets change our git source to our repo.</p>
+<p>From our openshift dashboard for our project. Select <code>Builds &gt; Builds</code></p>
+<p><img src="../.gitbook/assets/goto-build.png" alt="Goto Build"></p>
+<p>Select the patientui build. As of now this should be the only build on screen.</p>
+<p><img src="../.gitbook/assets/select-build.png" alt="Select Build"></p>
+<p>Click on <code>Action</code> on the right and then select <code>Edit</code></p>
+<p><img src="../.gitbook/assets/edit-build.png" alt="Edit Build"></p>
+<p>Change the <code>Git Repository URL</code> to our forked repository.</p>
+<p>Click Save in the bottom.</p>
+<p><img src="../.gitbook/assets/update-build-src.png" alt="Update Build"></p>
+<p>You will see this will not result in a new build. If you want to start a manual build you can do so by clicking <code>Start Build</code>. We will skip this for now and move on to the webhook part.</p>
+<p>Click on <code>Configuration</code> tab.</p>
+<p>Copy the GitHub Webook URL.</p>
+<p>The webhook is in the structure</p>
+<pre><code class="lang-text">https://c100-e.us-east.containers.cloud.ibm.com:31305/apis/build.openshift.io/v1/namespaces/example-health/buildconfigs/patientui/webhooks/&lt;secret&gt;/github
+</code></pre>
+<p>Make note of the secret. (Its the Alpha-Numeric string between <code>webhooks</code> and <code>github</code>) We will need it in the next step.</p>
+<p><img src="../.gitbook/assets/copy-github-webhook.png" alt="Copy github webhook"></p>
+<blockquote>
+<p>There is also the generic webhook url. This also works for github. But the github webhook captures some additional data from github and is more specific. But if we were using some other git repo like bitbucket or gitlab we would use the generic one.</p>
+</blockquote>
+<p>In our github repo go to <code>Setting &gt; Webhooks</code>. Then click <code>Add Webhook</code></p>
+<p><img src="../.gitbook/assets/webhook-page.png" alt="webhook page"></p>
+<p>In the Add Webhook page fill in the <code>Payload URL</code> with the url copied earlier from the build configuration. Change the <code>Content type</code> to <code>application/json</code> and fill in the secret.</p>
+<p>Right now just the push event is being sent which is fine for our use.</p>
+<p>Click on <code>Add webhook</code></p>
+<p><img src="../.gitbook/assets/add-webhook.png" alt="add webhook"></p>
+<p>If the webhook is reachable by github you will see a green check mark.</p>
+<p>Back in our openshift console we still would only see one build however. Because we added a webhook that sends us push events and we have no push event happening. Lets make one. The easiest way to do it is probably from the Github UI. Lets change some text in the login page.</p>
+<p>Path to this file is <code>site/public/login.html</code> from the root of the directory. On Github you can edit any file by clicking the Pencil icon on the top right corner.</p>
+<p><img src="../.gitbook/assets/edit-page.png" alt="edit page"></p>
+<p>Let&apos;s change the name our application to <code>Demo Health</code> (Line 21, Line 22). Feel free to make any other UI changes you feel like.</p>
+<p><img src="../.gitbook/assets/changes.png" alt="changes"></p>
+<p>Once done go to the bottom and click <code>commit changes</code>.</p>
+<p>Go to the openshift build page again. This happens quite fast so you might not see the running state. But the moment we made that commit a build was kicked off.</p>
+<p><img src="../.gitbook/assets/running-build.png" alt="running build"></p>
+<p>In a moment it will show completed. Navigate to the overview page to find the route.</p>
+<p><img src="../.gitbook/assets/route.png" alt="route"></p>
+<blockquote>
+<p>You could also go to <code>Applications &gt; Routes</code> to find the route for the application.</p>
+</blockquote>
+<p>If you go to your new route you will see your change.</p>
+<p><img src="../.gitbook/assets/updated-ui.png" alt="UI"></p>
 
                                 
                                 </section>
@@ -340,7 +400,7 @@
 
             
                 
-                <a href="../GETSTARTED.html" class="navigation navigation-prev " aria-label="Previous page: Create account and get cluster">
+                <a href="../exercise-0/" class="navigation navigation-prev " aria-label="Previous page: Setup CLI Access for the cluster">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
@@ -356,7 +416,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Accessing the cluster","level":"1.1.2","depth":2,"next":{"title":"Using OpenShift","level":"1.1.3","depth":2,"path":"exercise-2/README.md","ref":"exercise-2/README.md","articles":[]},"previous":{"title":"Create account and get cluster","level":"1.1.1","depth":2,"path":"GETSTARTED.md","ref":"GETSTARTED.md","articles":[]},"dir":"ltr"},"config":{"plugins":["hints"],"root":"./workshop","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hints":{"info":"fa fa-info-circle","tip":"fa fa-mortar-board","danger":"fa fa-exclamation-circle","working":"fa fa-wrench"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"*"},"file":{"path":"exercise-1/README.md","mtime":"2019-08-23T14:23:44.132Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-08-23T14:24:33.966Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"Accessing the cluster","level":"1.1.3","depth":2,"next":{"title":"Using OpenShift","level":"1.1.4","depth":2,"path":"exercise-2/README.md","ref":"exercise-2/README.md","articles":[]},"previous":{"title":"Setup CLI Access for the cluster","level":"1.1.2","depth":2,"path":"exercise-0/README.md","ref":"exercise-0/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["hints"],"root":"./workshop","styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"hints":{"info":"fa fa-info-circle","tip":"fa fa-mortar-board","danger":"fa fa-exclamation-circle","working":"fa fa-wrench"},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"gitbook":"*"},"file":{"path":"exercise-1/README.md","mtime":"2019-09-06T16:54:43.798Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-09-06T16:55:36.892Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
